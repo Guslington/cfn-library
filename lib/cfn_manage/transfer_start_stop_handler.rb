@@ -8,14 +8,12 @@ module CfnManage
     def initialize(server_id, skip_wait)
       sftpId = server_id.split("/")
       @server_id = sftpId.last
-      puts @server_id
       @skip_wait = skip_wait
       credentials = CfnManage::AWSCredentials.get_session_credentials("startstoptransfer_#{@server_id}")
       @client = Aws::Transfer::Client.new(retry_limit: 20)
       if credentials != nil
         @client = Aws::Transfer::Client.new(credentials: credentials, retry_limit: 20)
       end
-      #puts @server_id
     end
 
     def start(configuration)
